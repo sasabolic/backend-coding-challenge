@@ -1,0 +1,13 @@
+# ==============================================================
+# ADAPTER CONFIGURATION
+# ==============================================================
+
+# Postgres
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/engage
+    username: postgres
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: none
