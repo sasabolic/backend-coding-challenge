@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "historical": true,
+  "base": "EUR",
+  "date": "2021-03-18",
+  "rates": {
+    "GBP": 0.855871
+  }
+}

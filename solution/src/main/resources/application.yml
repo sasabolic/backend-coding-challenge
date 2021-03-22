@@ -11,3 +11,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+# Exchange
+exchange-rate:
+  api:
+    primary:
+      uri: https://api.exchangeratesapi.io
+    secondary:
+      uri: https://api.exchangerate.host
+
