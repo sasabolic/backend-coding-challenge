@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import lombok.EqualsAndHashCode;
 
 /**
- * VAT rate used calculate VAT amount.
+ * Rate used to calculate VAT amount.
  */
 @EqualsAndHashCode
 public final class VatRate {

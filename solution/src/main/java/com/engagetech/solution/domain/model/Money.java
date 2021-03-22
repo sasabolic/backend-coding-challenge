@@ -8,7 +8,7 @@ import java.util.Currency;
 import lombok.EqualsAndHashCode;
 
 /**
- * Represents money which is composed of {@link #value} and {@link #currency}.
+ * Represents money which is composed of the {@link #value} and the {@link #currency}.
  */
 @EqualsAndHashCode
 public final class Money {

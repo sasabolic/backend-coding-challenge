@@ -21,7 +21,7 @@ class MoneyTest {
     BigDecimal value = null;
     Currency currency = Currency.getInstance("GBP");
 
-    assertThatThrownBy(() -> Money.of(value, currency))
+    assertThatThrownBy(() -> Money.of(null, currency))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Value cannot be null.");
   }
@@ -31,7 +31,7 @@ class MoneyTest {
     BigDecimal value = BigDecimal.valueOf(0.233456);
     Currency currency = null;
 
-    assertThatThrownBy(() -> Money.of(value, currency))
+    assertThatThrownBy(() -> Money.of(value, null))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Currency cannot be null.");
   }

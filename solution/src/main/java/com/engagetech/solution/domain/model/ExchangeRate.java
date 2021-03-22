@@ -7,7 +7,7 @@ import java.util.Currency;
 import lombok.EqualsAndHashCode;
 
 /**
- * The rate used to exchange origination currency ({@link #from}) to disignated curecny ({@link #to}).
+ * The rate used to exchange origination currency ({@link #from}) to designated currency ({@link #to}).
  */
 @EqualsAndHashCode
 public final class ExchangeRate {

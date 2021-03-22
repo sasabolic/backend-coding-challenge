@@ -27,17 +27,17 @@ public class CreateExpenseRequest {
     pattern = DATE_PATTERN,
     message = "Date is invalid. You should specify date in 'dd/mm/yyyy' format (e.g. '20/03/2021'). The value should not be in the future."
   )
-  String date;
+  private final String date;
 
   @NotNull(message = "Amount must have a value")
   @Money(
     supportedCurrencies = {"GBP", "EUR"},
     message = "Invalid money format. You should specify amount in '00.00 [EUR]' format (e.g. '599.00' for British Pounds or '599.00 EUR' for Euros)."
   )
-  String amount;
+  private final String amount;
 
   @NotBlank(message = "Reason must not be empty")
-  String reason;
+  private final String reason;
 
   @JsonCreator
   public CreateExpenseRequest(

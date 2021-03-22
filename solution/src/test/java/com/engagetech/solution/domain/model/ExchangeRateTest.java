@@ -18,11 +18,10 @@ class ExchangeRateTest {
 
   @Test
   void givenIncorrectFromCurrency_whenNewInstance_thenThrowException() {
-    Currency from = null;
     Currency to = Currency.getInstance("GBP");
     BigDecimal value = BigDecimal.valueOf(0.233456);
 
-    assertThatThrownBy(() -> ExchangeRate.of(from, to, value))
+    assertThatThrownBy(() -> ExchangeRate.of(null, to, value))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Exchange rate from currency cannot be null.");
   }
@@ -30,10 +29,9 @@ class ExchangeRateTest {
   @Test
   void givenIncorrectToCurrency_whenNewInstance_thenThrowException() {
     Currency from = Currency.getInstance("EUR");
-    Currency to = null;
     BigDecimal value = BigDecimal.valueOf(0.233456);
 
-    assertThatThrownBy(() -> ExchangeRate.of(from, to, value))
+    assertThatThrownBy(() -> ExchangeRate.of(from, null, value))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Exchange rate to currency cannot be null.");
   }
@@ -42,18 +40,22 @@ class ExchangeRateTest {
   void givenIncorrectValue_whenNewInstance_thenThrowException() {
     Currency from = Currency.getInstance("EUR");
     Currency to = Currency.getInstance("GBP");
-    BigDecimal value = null;
 
-    assertThatThrownBy(() -> ExchangeRate.of(from, to, value))
+    assertThatThrownBy(() -> ExchangeRate.of(from, to, null))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Exchange rate value cannot be null.");
   }
 
   @Test
   void whenNewInstance_thenSuccess() {
-    VatRate result = VatRate.of(new BigDecimal("20.00"));
+    Currency from = Currency.getInstance("EUR");
+    Currency to = Currency.getInstance("GBP");
+    BigDecimal value = new BigDecimal("0.6543");
+    ExchangeRate result = ExchangeRate.of(from, to, value);
 
     assertThat(result).isNotNull();
-    assertThat(result.getValue()).isEqualTo(new BigDecimal("20.00"));
+    assertThat(result.getValue()).isEqualTo(new BigDecimal("0.6543"));
+    assertThat(result.getFrom()).isEqualTo(Currency.getInstance("EUR"));
+    assertThat(result.getTo()).isEqualTo(Currency.getInstance("GBP"));
   }
 }

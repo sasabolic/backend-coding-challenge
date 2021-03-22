@@ -6,7 +6,7 @@ import static org.springframework.util.Assert.isTrue;
 import lombok.EqualsAndHashCode;
 
 /**
- * Reason why expense was created.
+ * Text containing information why the {@link Expense} was created.
  */
 @EqualsAndHashCode
 public final class Reason {

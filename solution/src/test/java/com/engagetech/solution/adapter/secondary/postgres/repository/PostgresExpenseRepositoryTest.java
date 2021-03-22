@@ -71,7 +71,7 @@ class PostgresExpenseRepositoryTest {
         Reason.of("Mock reason")
       )
       .convert(cf)
-      .calculateVAT(VatRate.of(new BigDecimal(0.2)));
+      .calculateVAT(VatRate.of(new BigDecimal("0.2")));
 
     entityManager.persist(new ExpenseEntity(expense));
 

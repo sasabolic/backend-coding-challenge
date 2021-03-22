@@ -43,11 +43,10 @@ class ExpenseTest {
 
   @Test
   void givenNoDate_whenNewInstance_thenThrowException() {
-    LocalDate date = null;
     Money amount = Money.of(BigDecimal.TEN);
     Reason reason = Reason.of("Mock reason");
 
-    assertThatThrownBy(() -> Expense.create(date, amount, reason))
+    assertThatThrownBy(() -> Expense.create(null, amount, reason))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Date cannot be null.");
   }
@@ -55,10 +54,9 @@ class ExpenseTest {
   @Test
   void givenNoAmount_whenNewInstance_thenThrowException() {
     LocalDate date = LocalDate.parse("2020-01-01");
-    Money amount = null;
     Reason reason = Reason.of("Mock reason");
 
-    assertThatThrownBy(() -> Expense.create(date, amount, reason))
+    assertThatThrownBy(() -> Expense.create(date, null, reason))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Amount cannot be null.");
   }
@@ -67,9 +65,8 @@ class ExpenseTest {
   void givenNoReason_whenNewInstance_thenThrowException() {
     LocalDate date = LocalDate.parse("2020-01-01");
     Money amount = Money.of(BigDecimal.TEN);
-    Reason reason = null;
 
-    assertThatThrownBy(() -> Expense.create(date, amount, reason))
+    assertThatThrownBy(() -> Expense.create(date, amount, null))
       .isInstanceOf(IllegalArgumentException.class)
       .hasMessage("Reason cannot be null.");
   }

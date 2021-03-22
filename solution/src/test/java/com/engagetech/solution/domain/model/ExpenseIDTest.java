@@ -14,6 +14,7 @@ class ExpenseIDTest {
       .verify();
   }
 
+  @Test
   void givenIncorrectValue_whenNewInstance_thenThrowException() {
     assertThatThrownBy(() -> ExpenseID.of(null))
       .isInstanceOf(IllegalArgumentException.class)
