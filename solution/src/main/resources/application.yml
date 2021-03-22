@@ -11,7 +11,7 @@ app.solution.expense.vat-rate: 20.00
 # Postgres
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/engage
+    url: jdbc:postgresql://${VRS_POSTGRES:localhost}/engage
     username: postgres
     password: password
   jpa:
