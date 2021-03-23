@@ -10,6 +10,7 @@ import { VatComponent } from './vat/vat.component';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
+import { LogoutComponent } from './logout/logout.component';
 import { AuthGuard } from './auth.guard';
 import { NotificationComponent } from './notification/notification.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -20,6 +21,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
     ExpensesComponent,
     VatComponent,
     LoginComponent,
+    LogoutComponent,
     NotificationComponent
   ],
   imports: [
