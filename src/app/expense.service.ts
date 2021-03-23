@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Expense } from './expenses/expense';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
 
-  private expensesUrl = '/app/expenses';
+  private expensesUrl = `${environment.apiUrl}/expenses`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
