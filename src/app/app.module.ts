@@ -4,10 +4,11 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ExpensesComponent } from './expenses/expenses.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { VatComponent } from './vat/vat.component';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { NotificationComponent } from './notification/notification.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
