@@ -1,4 +1,4 @@
-package com.engagetech.solution.adapter.primary.rest;
+package com.engagetech.solution.adapter.primary.rest.config;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;

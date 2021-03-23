@@ -45,7 +45,7 @@ public class MoneyValidator implements ConstraintValidator<Money, String> {
       if (!isSupported) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(
-          String.format("Currency '%s' not supported", currency))
+          String.format("Currency '%s' is not supported", currency))
           .addConstraintViolation();
 
         return false;

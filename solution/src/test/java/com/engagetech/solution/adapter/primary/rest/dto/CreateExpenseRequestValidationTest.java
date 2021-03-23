@@ -84,7 +84,7 @@ class CreateExpenseRequestValidationTest {
       .isNotEmpty()
       .hasSize(1)
       .extracting(ConstraintViolation::getMessage)
-      .containsOnly("Currency 'RSD' not supported");
+      .containsOnly("Currency 'RSD' is not supported");
   }
 
   @Test

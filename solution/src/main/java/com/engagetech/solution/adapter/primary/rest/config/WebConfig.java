@@ -1,4 +1,4 @@
-package com.engagetech.solution.adapter.primary.rest;
+package com.engagetech.solution.adapter.primary.rest.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
