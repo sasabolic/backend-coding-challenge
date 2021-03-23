@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Expense } from './expense';
 import { ExpenseService } from '../expense.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-expenses',
@@ -14,7 +15,9 @@ export class ExpensesComponent implements OnInit {
 
   expenses: Expense[];
 
-  constructor(private expenseService: ExpenseService) { }
+  constructor(
+    private expenseService: ExpenseService,
+    private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.loadExpenses();
@@ -27,14 +30,23 @@ export class ExpensesComponent implements OnInit {
   }
 
   saveExpense(): void {
-    this.expenseService.createExpense(this.newExpense).subscribe(() => {
+    this.notificationService.clear();
+
+    this.expenseService.createExpense(this.newExpense)
+    .subscribe(() => {
+      this.notificationService.success('Expense successfully created', {autoClose: true});
       this.clearExpense();
       this.loadExpenses();
+    }, (error: any) => {
+      if (Array.isArray(error)) {
+        error.forEach(e => this.notificationService.error(e, {autoClose: false}));
+      } else {
+        this.notificationService.error(error, {autoClose: false});
+      }
     });
   }
 
   clearExpense(): void {
     this.newExpense = {};
   }
-
 }
