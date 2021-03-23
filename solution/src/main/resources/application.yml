@@ -29,5 +29,3 @@ exchange-rate:
       uri: https://api.exchangeratesapi.io
     secondary:
       uri: https://api.exchangerate.host
-#logging:
-#  level.org.springframework: DEBUG
