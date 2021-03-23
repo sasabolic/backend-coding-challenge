@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -11,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.engagetech.solution.adapter.primary.rest.dto.assembler.DefaultExpenseResponseAssembler;
 import com.engagetech.solution.adapter.primary.rest.dto.assembler.ExpenseResponseAssembler;
-import com.engagetech.solution.common.JsonFixtureTest;
 import com.engagetech.solution.domain.model.CreateExpenseCommand;
 import com.engagetech.solution.domain.model.Expense;
 import com.engagetech.solution.domain.model.ExpenseID;
@@ -33,7 +34,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(ExpenseController.class)
-class ExpenseControllerTest extends JsonFixtureTest {
+class ExpenseControllerTest extends MvcTestConfig {
 
   @TestConfiguration
   static class TestConfig {
@@ -70,13 +71,40 @@ class ExpenseControllerTest extends JsonFixtureTest {
 
     given(expenseService.findAll()).willReturn(Arrays.asList(expense1, expense2));
 
-    mockMvc.perform(get("/expenses").accept(MediaType.APPLICATION_JSON))
+    mockMvc
+      .perform(
+        get("/expenses")
+          .accept(MediaType.APPLICATION_JSON)
+          .with(user("user").password("pass").roles("USER"))
+      )
       .andExpect(status().isOk())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$").isArray())
       .andExpect(jsonPath("$", hasSize(2)))
       .andExpect(jsonPath("$[0].amount", equalTo("10.00")))
       .andExpect(jsonPath("$[1].amount", equalTo("1.00")));
+  }
+
+  @Test
+  void givenUserNotAuthenticated_whenGetAll_thenStatusUnauthorize() throws Exception {
+    mockMvc
+      .perform(
+        get("/expenses")
+          .accept(MediaType.APPLICATION_JSON)
+//          .with(anonymous())
+      )
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenUserWithDifferentRole_whenGetAll_thenStatusForbidden() throws Exception {
+    mockMvc
+      .perform(
+        get("/expenses")
+          .accept(MediaType.APPLICATION_JSON)
+          .with(user("user").password("pass").roles("MOCK_ROLE"))
+      )
+      .andExpect(status().isForbidden());
   }
 
   @Test
@@ -96,8 +124,52 @@ class ExpenseControllerTest extends JsonFixtureTest {
       .content(readJSON("/fixtures/primary/rest/create_expense_request.json"))
       .contentType(MediaType.APPLICATION_JSON);
 
-    mockMvc.perform(requestBuilder)
+    mockMvc
+      .perform(
+        requestBuilder
+          .with(user("user").password("pass").roles("USER"))
+      )
       .andExpect(status().isCreated());
+  }
+
+  @Test
+  void givenUserNotAuthenticated_whenCreate_thenStatusUnauthorized() throws Exception {
+    final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+      .post("/expenses")
+      .content(readJSON("/fixtures/primary/rest/create_expense_request.json"))
+      .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc
+      .perform(
+        requestBuilder
+          .with(anonymous())
+      )
+      .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void givenUserWithDifferentRole_whenCreate_thenStatusForbidden() throws Exception {
+    Expense expense = new Expense(
+      ExpenseID.of(1L),
+      LocalDate.parse("2020-01-01"),
+      Money.of(BigDecimal.TEN),
+      Money.of(new BigDecimal("2.00")),
+      Reason.of("Mock reason1")
+    );
+
+    given(expenseService.create(isA(CreateExpenseCommand.class))).willReturn(expense);
+
+    final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+      .post("/expenses")
+      .content(readJSON("/fixtures/primary/rest/create_expense_request.json"))
+      .contentType(MediaType.APPLICATION_JSON);
+
+    mockMvc
+      .perform(
+        requestBuilder
+          .with(user("user").password("pass").roles("MOCK_ROLE"))
+      )
+      .andExpect(status().isForbidden());
   }
 
   @Test
@@ -108,7 +180,11 @@ class ExpenseControllerTest extends JsonFixtureTest {
       .content(readJSON("/fixtures/primary/rest/create_expense_request_invalid.json"))
       .contentType(MediaType.APPLICATION_JSON);
 
-    mockMvc.perform(requestBuilder)
+    mockMvc
+      .perform(
+        requestBuilder
+          .with(user("user").password("pass").roles("USER"))
+      )
       .andExpect(status().isBadRequest())
       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
       .andExpect(jsonPath("$").exists())
