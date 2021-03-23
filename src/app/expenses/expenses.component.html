@@ -1,5 +1,5 @@
 <div class="container">
-	<h2>Expenses</h2>
+  <h2>Expenses</h2>
 
 	<h3>Add an expense</h3>
 	<form>
@@ -10,13 +10,14 @@
 		<p>
 			<label>Amount</label>
 			<input type="text" [(ngModel)]="newExpense.amount" name="amount" placeholder="00.00" />
+      <app-vat [amount]="newExpense.amount"></app-vat>
 		</p>
 		<p>
 			<label>Reason</label>
-			<textarea [(ngModel)]="newExpense.reason" name = "reason" placeholder="Why oh why?"></textarea>
+			<textarea [(ngModel)]="newExpense.reason" name = "reason" placeholder="Why oh why Delilah?"></textarea>
 		</p>
 		<p class="buttons-row">
-			<button (click)="saveExpense()" class="solid">Save Expense</button> 
+			<button (click)="saveExpense()" class="solid">Save Expense</button>
 			<button (click)="clearExpense()">Cancel</button>
 		</p>
 	</form>
