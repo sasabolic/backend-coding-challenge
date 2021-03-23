@@ -1,0 +1,4 @@
+<div *ngFor="let notification of notifications" class="{{css(notification)}}">
+  <span class="close-btn" (click)="remove(notification)">&times;</span>
+  <span [innerHTML]="notification.message"></span>
+</div>
