@@ -1,0 +1,44 @@
+.container {
+  margin: 1rem auto;
+}
+
+.login-form {
+  height:100%;
+  width:100%;
+  margin:0;
+  display:flex;
+}
+
+form {
+  @label-width: 150px;
+  font-size: 1rem;
+  margin:auto;
+  p {
+    margin-bottom: 0px;
+    padding: 0 0 20px;
+    overflow: visible;
+  }
+  label {
+    display: inline-block;
+    width: @label-width;
+    margin-right: 12px;
+    margin-bottom: 4px;
+    vertical-align: middle;
+    text-align: right;
+    color: #858B8F;
+  }
+  input {
+    width: 233px;
+    font-size: 16px;
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid #DDE2E5;
+    outline: 0;
+  }
+  button {
+    margin-right: 1rem;
+  }
+  .buttons-row {
+    margin-left: calc(@label-width + 12px);
+  }
+}
