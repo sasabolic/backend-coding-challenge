@@ -109,7 +109,7 @@ Example API calls expense and authentication resource:
         -H 'Authorization: Bearer {access_token}' \
         -d '{
             "date": "25/02/2020",
-            "expense": "499.00 EUR",
+            "amount": "499.00 EUR",
             "reason": "Some reason"
         }'
 
