@@ -8,12 +8,18 @@ The intention of this architecture was to create loosely coupled module componen
 
 ### Hexagonal Architecture
 
-Domain i.e. logic of the app is separated fromm its external dependencies by the means of ports and adapters. The idea here is to isolate the domain logic from the outside concerns. The biggest benefit that we could easily swap each component if necessary. The ports serve as the contract for the primary (incoming) adapters (i.e. **rest-api**) and secondary (outbound) adapters (i.e. **exchange-api**, **postgres**).
+Domain i.e. logic of the app is separated from its external dependencies by the means of ports and adapters. The idea here is to isolate the domain logic from the outside concerns. The biggest benefit is that we could easily swap each component if necessary. The ports serve as the contract for the primary (incoming) and secondary (outbound) adapters.
 
 <p align="center">
   <img width="700" src="./docs/images/expense_architecture_overview.png">
 <p align="center"><i>Architecture Overview</i></p>
 </p>
+
+The following adapters exist in the system:
+
+ - **rest-api** - primary adapter used to create and query data in the expense domain.
+ - **exchange-api** - secondary adapter used to query public API to fetch the exchange rates of a given currency. Implemented as a _circuit breaker_ with a fallback to the alternate exchange rate API. All response from the public API are cached in memory to reduce number of external API calls.
+ - **postgres** - secondary adapter used to store expense domain data.
 
 ### Domain
 
