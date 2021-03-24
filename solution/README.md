@@ -66,7 +66,7 @@ After you have run the `./run.sh` for the first time, all services will be conta
 
     docker-compose up
 
-## Running the tests
+## Running the Tests
 
     ./gradlew clean test
 
