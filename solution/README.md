@@ -12,6 +12,7 @@ Domain i.e. logic of the app is separated fromm its external dependencies by the
 
 <p align="center">
   <img width="700" src="./docs/images/expense_architecture_overview.png">
+<p align="center"><i>Architecture Overview</i></p>
 </p>
 
 ### Domain
