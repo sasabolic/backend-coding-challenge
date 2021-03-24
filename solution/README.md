@@ -8,7 +8,7 @@ The intention of this architecture was to create loosely coupled module componen
 
 ### Hexagonal Architecture
 
-Domain i.e. logic of the app is separated from its external dependencies by the means of ports and adapters. The idea here is to isolate the domain logic from the outside concerns. The biggest benefit is that we could easily swap each component if necessary. The ports serve as the contract for the primary (incoming) and secondary (outbound) adapters:
+Domain logic of the app is separated from its external dependencies by the means of ports and adapters. The idea behind it is to isolate the domain logic from the outside concerns. The biggest benefit is that we could easily swap each component if necessary. The ports serve as the contract for the primary (inbound) and secondary (outbound) adapters:
 
 <p align="center">
   <img width="700" src="./docs/images/expense_architecture_overview.png">
@@ -17,9 +17,9 @@ Domain i.e. logic of the app is separated from its external dependencies by the 
 
 The following adapters exist in the system:
 
- - **rest-api** - primary adapter used to create and query data in the expense domain.
- - **exchange-api** - secondary adapter used to query public API to fetch the exchange rates of a given currency. Implemented as a _circuit breaker_ with a fallback to the alternate exchange rate API. All response from the public API are cached in memory to reduce number of external API calls.
- - **postgres** - secondary adapter used to store expense domain data.
+ - **rest-api** - primary adapter - used for creation and for querying of the data in the expense domain.
+ - **exchange-api** - secondary adapter - used for querying public exchange rate API to fetch the rates for designated currency. It is implemented as a _circuit breaker_ with a fallback to the alternate exchange rate API. All responses from the public API are cached in memory to reduce the number of external API calls.
+ - **postgres** - secondary adapter - used for storage of the expense domain data.
 
 ### Domain
 
@@ -61,11 +61,11 @@ To start all the services run the following command from your terminal window:
 
     ./run.sh
 
-This script will execute tests and package the expense-service, build the Docker image for the expense-service and Postgres and install them
+This script will execute tests and package the **expense-service**, build the Docker image for the **expense-service** and Postgres and install them
 in your local Docker image registry. All containers will then be run using **docker-compose**.
 
 > **Important:**
->Make sure that you have the following ports available in your local machine: **8080** and **5432**. These are
+>Make sure that you have the following ports available on your local machine: **8080** and **5432**. These are
 >the ports used by **expense-service** and **Postgres**, respectively.
 
 After you have run the `./run.sh` for the first time, all services will be containerized. Therefore, for every subsequent infrastructure bootstrap, it is sufficient to run **docker-compose**:
@@ -78,27 +78,50 @@ After you have run the `./run.sh` for the first time, all services will be conta
 
 ## API Reference
 
-REST API consists of customer and data object resources:
+REST API consists of authentication and expense resources:
 
-1. Expense
-
-   In order to create new expense call:
-
-        POST /expenses
-
-   In order to fetch all expenses call:
-
-        GET /expenses
-
-2. Authentication
+1. Authentication
 
    To login to the expense-service:
 
         POST /login
+        
+2. Expense
 
-### Example API Calls
+   In order to create a new expense:
 
-Example API calls expense and authentication resource:
+        POST /expenses
+
+   In order to fetch all expenses:
+
+        GET /expenses
+
+
+### Example API Requests
+
+Example API requests for the authentication and expense resource:
+
+* To authenticate with expense-service:
+
+  Request:
+
+        curl -X POST 'http://localhost:8080/login' \
+        -H 'Content-Type: application/json' \
+        -d '{
+            "username": "tom",
+            "password": "jones"
+        }'
+
+  Response:
+
+
+        Header:
+            Status: 200 OK
+        Body:
+            {
+                "accessToken": "{access_token}",
+                "tokenType": "Bearer"
+            }
 
 * To create a new expense:
 
@@ -159,27 +182,6 @@ Example API calls expense and authentication resource:
                 }
              ]
 
-* To authenticate at expense service:
-
-  Request:
-
-        curl -X POST 'http://localhost:8080/login' \
-        -H 'Content-Type: application/json' \
-        -d '{
-            "username": "tom",
-            "password": "jones"
-        }'
-
-  Response:
-
-
-        Header:
-            Status: 200 OK
-        Body:
-            {
-                "accessToken": "{access_token}",
-                "tokenType": "Bearer"
-            }
 
 
 ## Starting the UI Dashboard Application
@@ -188,17 +190,20 @@ Example API calls expense and authentication resource:
 
 To run the UI dashboard app locally, you need to have installed on your computer [Node.js](https://nodejs.org/en/) and [Angular CLI](https://cli.angular.io/).
 
+> **Important:**
+>Make sure that the port **4200** is available on your local machine. This port is used for serving the UI Dashboard.
+
 ### Installing and Running
 
-Open up a new terminal window and position yourself to the root of the repository and install and start the application.
+Open up a new terminal window and position yourself to the repository's root directory and then install and start the application:
 
     cd ..
     
     npm install && ng serve
     
-### Using the Dashboard UI
+### Using the UI Dashboard
 
-Once the UI Dashboar application is up and running go to http://localhost:4200 in your browser. Login with credentails (username/password): __tom/jones__ to access the expense dashboard. After successful login you should be able to see the expenses dashboard page:
+Once the UI Dashboar application is up and running go to http://localhost:4200 in your browser. Login with the following credentails (username/password): __tom/jones__ to access the expense dashboard. After successful login you will be redirected to the expenses page:
 
 <p align="center">
   <img width="700" src="./docs/images/expense_dashboard.png">
