@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST authentication controller.
+ * REST authentication resource.
  */
 @RequiredArgsConstructor
 @RestController
