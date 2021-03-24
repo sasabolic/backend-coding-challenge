@@ -201,7 +201,7 @@ Open up a new terminal window and position yourself to the root of the repositor
 Once the UI Dashboar application is up and running go to http://localhost:4200 in your browser. Login with credentails (username/password): __tom/jones__ to access the expense dashboard. After successful login you should be able to see the expenses dashboard page:
 
 <p align="center">
-  <img width="700" src="">
+  <img width="700" src="./docs/images/expense_dashboard.png">
 <p align="center"><i>Expenses Dashboard</i></p>
 </p>
 
