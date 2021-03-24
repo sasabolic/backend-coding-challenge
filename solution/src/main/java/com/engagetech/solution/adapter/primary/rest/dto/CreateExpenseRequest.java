@@ -14,29 +14,31 @@ import java.util.Currency;
 import java.util.regex.Matcher;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.ToString;
 
 /**
  * Create expense DTO.
  */
+@ToString
 public class CreateExpenseRequest {
 
   private static final String DATE_PATTERN = "dd/MM/uuuu";
 
-  @NotNull(message = "Date must have a value")
+  @NotNull(message = "Date must have a value.")
   @NotFutureDate(
     pattern = DATE_PATTERN,
-    message = "Date is invalid. You should specify date in 'dd/mm/yyyy' format (e.g. '20/03/2021'). The value should not be in the future."
+    message = "Date should not be in the future and it should be in 'dd/mm/yyyy' format (e.g. '20/03/2021')."
   )
   private final String date;
 
-  @NotNull(message = "Amount must have a value")
+  @NotNull(message = "Amount must have a value.")
   @Money(
     supportedCurrencies = {"GBP", "EUR"},
-    message = "Invalid money format. You should specify amount in '00.00 [EUR]' format (e.g. '599.00' for British Pounds or '599.00 EUR' for Euros)."
+    message = "Amount should be in '00.00 [EUR]' format (e.g. '599.00' for British Pounds or '599.00 EUR' for Euros)."
   )
   private final String amount;
 
-  @NotBlank(message = "Reason must not be empty")
+  @NotBlank(message = "Reason must have a value.")
   private final String reason;
 
   @JsonCreator

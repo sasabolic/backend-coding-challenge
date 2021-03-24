@@ -37,7 +37,7 @@ public class ExpenseController {
 
   @PostMapping
   public ResponseEntity<Void> create(@RequestBody @Valid CreateExpenseRequest createExpenseRequest) {
-    log.info("Creating expense={}", createExpenseRequest);
+    log.debug("Creating expense={}", createExpenseRequest);
 
     Expense expense = expenseService.create(createExpenseRequest.toCommand());
 

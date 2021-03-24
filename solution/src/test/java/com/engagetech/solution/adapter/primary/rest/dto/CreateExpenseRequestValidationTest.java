@@ -49,7 +49,7 @@ class CreateExpenseRequestValidationTest {
       .hasSize(1)
       .extracting(ConstraintViolation::getMessage)
       .containsOnly(
-        "Date is invalid. You should specify date in 'dd/mm/yyyy' format (e.g. '20/03/2021'). The value should not be in the future.");
+        "Date should not be in the future and it should be in 'dd/mm/yyyy' format (e.g. '20/03/2021').");
   }
 
   @Test
@@ -67,7 +67,7 @@ class CreateExpenseRequestValidationTest {
       .hasSize(1)
       .extracting(ConstraintViolation::getMessage)
       .containsOnly(
-        "Invalid money format. You should specify amount in '00.00 [EUR]' format (e.g. '599.00' for British Pounds or '599.00 EUR' for Euros).");
+        "Amount should be in '00.00 [EUR]' format (e.g. '599.00' for British Pounds or '599.00 EUR' for Euros).");
   }
 
   @Test
@@ -100,7 +100,7 @@ class CreateExpenseRequestValidationTest {
       .isNotEmpty()
       .hasSize(1)
       .extracting(ConstraintViolation::getMessage)
-      .containsOnly("Reason must not be empty");
+      .containsOnly("Reason must have a value.");
   }
 
   @Test
